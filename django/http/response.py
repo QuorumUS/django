@@ -164,7 +164,7 @@ class HttpResponseBase(six.Iterator):
         return self._headers.get(header.lower(), (None, alternate))[1]
 
     def set_cookie(self, key, value='', max_age=None, expires=None, path='/',
-                   domain=None, secure=False, httponly=False):
+                   domain=None, secure=False, httponly=False, samesite=None):
         """
         Sets a cookie.
 
@@ -206,6 +206,13 @@ class HttpResponseBase(six.Iterator):
             self.cookies[key]['secure'] = True
         if httponly:
             self.cookies[key]['httponly'] = True
+
+        # Backported from Django 3.1
+        # https://github.com/django/django/blob/stable/3.1.x/django/http/response.py#L199
+        if samesite:
+            if samesite.lower() not in ('lax', 'none', 'strict'):
+                raise ValueError('samesite must be "lax", "none" or "strict".')
+            self.cookies[key]['samesite'] = samesite
 
     def setdefault(self, key, value):
         """Sets a header unless it has already been set."""

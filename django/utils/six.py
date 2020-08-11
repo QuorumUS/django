@@ -27,6 +27,7 @@ import itertools
 import operator
 import sys
 import types
+import Cookie
 
 __author__ = "Benjamin Peterson <benjamin@python.org>"
 __version__ = "1.10.0"
@@ -882,3 +883,9 @@ else:
     else:
         memoryview = buffer
     buffer_types = (bytearray, memoryview)
+
+# Python2 Cookie doesn't support the samesite attribute, so patch in support
+if not Cookie.Morsel._reserved.has_key('samesite'):
+    # Be consistent with python3
+    # https://github.com/python/cpython/blob/3.9/Lib/http/cookies.py#L284
+    Cookie.Morsel._reserved['samesite'] = 'SameSite'

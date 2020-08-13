@@ -463,6 +463,9 @@ SESSION_COOKIE_SECURE = False
 SESSION_COOKIE_PATH = '/'
 # Whether to use the non-RFC standard httpOnly flag (IE, FF3+, others)
 SESSION_COOKIE_HTTPONLY = True
+# Whether to set the flag restricting cookie leaks on cross-site requests.
+# This can be 'Lax', 'Strict', 'None', or False to disable the flag.
+SESSION_COOKIE_SAMESITE = 'Lax'
 # Whether to save the session data on every request.
 SESSION_SAVE_EVERY_REQUEST = False
 # Whether a user's session cookie expires when the Web browser is closed.
@@ -542,6 +545,7 @@ CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
 CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
 CSRF_TRUSTED_ORIGINS = []
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 ############
 # MESSAGES #
